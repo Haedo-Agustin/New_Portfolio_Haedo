@@ -1,0 +1,6 @@
+{
+  "name": "HSoftware Developer Portfolio",
+  "description": "Interactive cybersecurity and software developer portfolio for HSoftware, featuring interactive terminal, project sandbox, matrix background, cyber audio FX, and encrypted contact transmission.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
