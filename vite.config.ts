@@ -5,6 +5,8 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // GitHub Pages sirve el sitio bajo /<repo>/. Configurable vía VITE_BASE_PATH.
+    base: process.env.VITE_BASE_PATH || '/New_Portfolio_Haedo/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
