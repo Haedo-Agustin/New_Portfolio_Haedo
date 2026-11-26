@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, Shield, Calendar, MapPin, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Calendar, MapPin } from 'lucide-react';
 import { EXPERIENCE_LOGS } from '../data/portfolioData';
 import { Language } from '../types';
 
@@ -9,65 +9,45 @@ interface ExperienceTimelineProps {
 
 export function ExperienceTimeline({ lang }: ExperienceTimelineProps) {
   return (
-    <section id="experience" className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 relative">
-      {/* Section Header */}
-      <div className="mb-8 border-b border-[#00ff66]/20 pb-4">
-        <div className="flex items-center gap-2 text-xs font-mono text-[#00ff66] mb-1">
-          <span className="text-[#00f0ff]">// 05. HISTORIAL_OPERACIONAL</span>
-          <span>::</span>
-          <span className="text-[#64748b]">CAREER_LOGS</span>
-        </div>
-        <h2 className="font-cyber font-extrabold text-2xl sm:text-4xl text-white tracking-wider flex items-center gap-3">
-          <span>{lang === 'es' ? 'REGISTRO DE EXPERIENCIA & OPERACIONES' : 'EXPERIENCE & OPERATIONS LOG'}</span>
+    <section id="experience" className="py-14 sm:py-16 px-4 sm:px-6 max-w-6xl mx-auto z-10 relative">
+      <div className="mb-8">
+        <h2 className="font-cyber font-extrabold text-2xl sm:text-4xl text-white tracking-wider">
+          {lang === 'es' ? 'Experiencia' : 'Experience'}
         </h2>
         <p className="text-sm font-mono text-[#94a3b8] mt-2 max-w-3xl">
           {lang === 'es'
-            ? 'Historial cronológico de despliegues, arquitectura de sistemas y misiones de seguridad técnica en entornos distribuidos.'
-            : 'Chronological timeline of system architecture, security missions, and distributed deployments.'}
+            ? 'Historial de roles en arquitectura de sistemas, seguridad y desarrollo distribuido.'
+            : 'Timeline of roles in systems architecture, security, and distributed development.'}
         </p>
       </div>
 
-      {/* Timeline List */}
-      <div className="space-y-6">
-        {EXPERIENCE_LOGS.map((exp, idx) => (
+      <div className="space-y-5">
+        {EXPERIENCE_LOGS.map((exp) => (
           <div
             key={exp.id}
-            className="cyber-card p-6 border border-[#00ff66]/25 bg-[#070a0f] relative font-mono space-y-4"
+            className="cyber-card p-5 sm:p-6 border border-[#00ff66]/25 relative font-mono space-y-3"
           >
-            {/* Top row */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#00ff66]/15 text-xs">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-[#00ff66] rounded-full" />
-                <span className="text-[#00ff66] font-bold text-sm sm:text-base font-cyber">
+            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 pb-3 border-b border-[#00ff66]/15">
+              <div>
+                <h3 className="text-[#00ff66] font-bold text-base sm:text-lg font-cyber">
                   {lang === 'es' ? exp.role.es : exp.role.en}
-                </span>
+                </h3>
+                <span className="text-[#00f0ff] text-xs">{exp.organization}</span>
               </div>
 
               <div className="flex items-center gap-3 text-[11px] text-[#64748b]">
-                <span className="flex items-center gap-1 text-[#00f0ff]">
+                <span className="flex items-center gap-1">
                   <Calendar className="w-3.5 h-3.5" />
                   <span>{exp.timestamp}</span>
                 </span>
-                <span>|</span>
-                <span className="flex items-center gap-1 text-[#a7b7c7]">
+                <span className="flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>{exp.location}</span>
                 </span>
               </div>
             </div>
 
-            {/* Organization Tag */}
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-white font-bold tracking-wider">
-                ORGANIZACIÓN: <span className="text-[#00f0ff]">{exp.organization}</span>
-              </span>
-              <span className="text-[10px] px-2 py-0.5 bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/30">
-                STATUS: {exp.status}
-              </span>
-            </div>
-
-            {/* Highlights */}
-            <div className="space-y-2 text-xs text-[#cbd5e1]">
+            <div className="space-y-1.5 text-xs sm:text-sm text-[#cbd5e1]">
               {(lang === 'es' ? exp.highlights.es : exp.highlights.en).map((item, hIdx) => (
                 <div key={hIdx} className="flex items-start gap-2 leading-relaxed">
                   <span className="text-[#00ff66] font-bold mt-0.5">&gt;</span>
@@ -76,8 +56,7 @@ export function ExperienceTimeline({ lang }: ExperienceTimelineProps) {
               ))}
             </div>
 
-            {/* Tech Stack Pills */}
-            <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[#1e293b]">
+            <div className="flex flex-wrap gap-1.5 pt-1">
               {exp.tech.map((t, tIdx) => (
                 <span
                   key={tIdx}
