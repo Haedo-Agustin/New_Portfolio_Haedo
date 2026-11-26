@@ -34,7 +34,11 @@ export function MatrixBackground({ enabled, opacity = 0.35 }: MatrixBackgroundPr
     const columns = Math.floor(width / fontSize);
     const drops: number[] = Array.from({ length: columns }, () => Math.floor(Math.random() * -50));
 
+    let running = true;
+
     const render = () => {
+      if (!running) return;
+
       ctx.fillStyle = 'rgba(5, 7, 10, 0.12)';
       ctx.fillRect(0, 0, width, height);
 
@@ -68,11 +72,28 @@ export function MatrixBackground({ enabled, opacity = 0.35 }: MatrixBackgroundPr
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    // Pause the animation when the tab is not visible to save CPU/battery.
+    const handleVisibility = () => {
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(animationFrameId);
+      } else if (!running) {
+        running = true;
+        render();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    if (!document.hidden) {
+      render();
+    }
 
     return () => {
+      running = false;
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibility);
     };
   }, [enabled]);
 

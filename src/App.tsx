@@ -23,11 +23,17 @@ export default function App() {
   const [activeSandboxProject, setActiveSandboxProject] = useState<Project | null>(null);
   const [activeSection, setActiveSection] = useState<string>('hero');
 
-  // Track scroll position to update active navbar section
+  // Track scroll position to update active navbar section.
+  // Throttled with requestAnimationFrame and passive listener to avoid
+  // re-rendering the whole tree on every scroll event.
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['hero', 'projects', 'skills', 'manifesto', 'experience', 'contact'];
+    const sections = ['hero', 'projects', 'skills', 'manifesto', 'experience', 'contact'];
+    let rafId: number | null = null;
+
+    const computeActiveSection = () => {
+      rafId = null;
       const scrollPos = window.scrollY + 200;
+      let current = 'hero';
 
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
@@ -35,15 +41,26 @@ export default function App() {
           const top = element.offsetTop;
           const height = element.offsetHeight;
           if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(sectionId);
+            current = sectionId;
             break;
           }
         }
       }
+
+      setActiveSection(prev => (prev === current ? prev : current));
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(computeActiveSection);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const handleToggleLang = () => {

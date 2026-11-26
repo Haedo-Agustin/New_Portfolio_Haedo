@@ -8,6 +8,17 @@ export default defineConfig(() => {
     // GitHub Pages sirve el sitio bajo /<repo>/. Configurable vía VITE_BASE_PATH.
     base: process.env.VITE_BASE_PATH || '/New_Portfolio_Haedo/',
     plugins: [react(), tailwindcss()],
+    build: {
+      // Separate long-lived vendor code so browsers can cache it across deploys.
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom'],
+            motion: ['motion'],
+          },
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
